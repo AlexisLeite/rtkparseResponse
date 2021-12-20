@@ -1,4 +1,10 @@
 body {
   background: #333;
   color: rgb(80, 112, 180);
+  font-size: 18pt;
+}
+
+button,
+input {
+  font-size: 1em;
 }

@@ -59,7 +59,9 @@ module.exports = (_, argv) => {
     plugins: [
       new ForkTsCheckerWebpackPlugin(),
       isDevelopment && new ReactRefreshWebpackPlugin(),
-      new HtmlWebPackPlugin(),
+      new HtmlWebPackPlugin({
+        template: "public/index.html",
+      }),
     ].filter(Boolean),
   };
 };
