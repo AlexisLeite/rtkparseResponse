@@ -59,9 +59,16 @@ function parseServerResponse(
   { payload }: PayloadAction<ServerResponse>,
   callback: (state: WritableDraft<DogState>, payload: any) => void
 ) {
-  console.log("Checking some things in the response");
-  state.messages.push(`Message number ${messageId++}`);
-  callback(state, payload);
+  try {
+    // If we didn't catch here, the error would become an unhandled error
+
+    console.log("Checking some things in the response");
+    state.messages.push(`Message number ${messageId++}`);
+
+    callback(state, payload);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 const dogSlice = createSlice({
@@ -76,6 +83,9 @@ const dogSlice = createSlice({
           console.log("Final payload", { payload });
           state.breeds = payload;
           state.loading = false;
+
+          // The state is updated even when this error is thrown
+          throw new Error("Asdf");
         }
       )
     );
@@ -87,6 +97,8 @@ const dogSlice = createSlice({
       // This could be parseRequestError
       state.error = `${error.name}: ${error.message}`;
       state.loading = false;
+
+      console.log("Error", { state, error });
     });
   },
 });
